@@ -1,0 +1,19 @@
+# Configuracion de despliegue para Render (https://render.com)
+# Render lee este archivo y crea el servicio automaticamente ("Blueprint").
+services:
+  - type: web
+    name: mi-casa-prestamos
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      # Token del panel receptor. "sync: false" = lo escribes tu en el dashboard,
+      # NO queda guardado en el codigo.
+      - key: PANEL_TOKEN
+        sync: false
+      # Nombre y motivo que ve la persona. Puedes cambiarlos en el dashboard.
+      - key: ORG_NOMBRE
+        value: "Mi Casa de Préstamos"
+      - key: MOTIVO
+        value: "poder contactarte"

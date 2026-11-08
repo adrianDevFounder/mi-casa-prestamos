@@ -1,0 +1,5 @@
+node_modules/
+ubicaciones.log
+.npm-cache/
+.server.out
+.env
