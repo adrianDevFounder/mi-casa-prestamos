@@ -3,75 +3,78 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mi Casa de Préstamos</title>
+  <title>Demo: captura de ubicación</title>
   <style>
     :root {
-      color-scheme: light;
+      color-scheme: light dark;
       --brand: #0f3d6b;
       --brand-dark: #0a2b4d;
       --accent: #1f8a4c;
+      --warn: #b4600f;
       --ink: #1a2433;
       --muted: #5b6672;
       --line: #e3e8ef;
       --bg: #eef1f6;
+      --card: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --ink: #e7ecf3; --muted: #9aa6b2; --line: #2a3340;
+        --bg: #0e141c; --card: #161d27;
+      }
+    }
+    :root[data-theme="dark"] {
+      --ink: #e7ecf3; --muted: #9aa6b2; --line: #2a3340;
+      --bg: #0e141c; --card: #161d27;
     }
     * { box-sizing: border-box; }
     body {
       font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
       margin: 0; min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      background: linear-gradient(180deg, #f6f8fb 0%, var(--bg) 100%);
+      background: var(--bg);
       color: var(--ink); padding: 1.25rem;
     }
     .card {
-      background: #fff; max-width: 460px; width: 100%; border-radius: 18px;
+      background: var(--card); max-width: 480px; width: 100%; border-radius: 18px;
       box-shadow: 0 18px 50px rgba(15, 61, 107, .14); overflow: hidden;
       border: 1px solid var(--line);
     }
-    /* Encabezado corporativo */
     .brandbar {
       background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
       color: #fff; padding: 1.4rem 1.6rem; display: flex; align-items: center; gap: .8rem;
     }
     .logo {
       width: 42px; height: 42px; border-radius: 10px; flex: 0 0 auto;
-      background: #fff; display: flex; align-items: center; justify-content: center;
-      color: var(--brand); font-weight: 800; font-size: 1.15rem; letter-spacing: -1px;
+      background: rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
     }
     .brandbar .name { font-size: 1.1rem; font-weight: 700; line-height: 1.1; }
-    .brandbar .tag { font-size: .72rem; opacity: .8; letter-spacing: .3px; text-transform: uppercase; margin-top: 2px; }
+    .brandbar .tag { font-size: .72rem; opacity: .85; letter-spacing: .3px; text-transform: uppercase; margin-top: 2px; }
     .body { padding: 1.6rem; }
-    h1 { font-size: 1.3rem; margin: 0 0 .5rem; color: var(--ink); letter-spacing: -.3px; }
+    h1 { font-size: 1.25rem; margin: 0 0 .5rem; color: var(--ink); letter-spacing: -.3px; }
     p { line-height: 1.55; color: var(--muted); margin: .4rem 0; }
     #intro { font-size: .95rem; }
 
-    /* Oferta destacada */
-    .oferta {
-      margin: 1.1rem 0; padding: 1.1rem 1.2rem; border-radius: 14px;
-      background: linear-gradient(135deg, #f0f7f2 0%, #eafaf0 100%);
-      border: 1px solid #cdebd7; text-align: center;
+    .demo-banner {
+      margin: 0 0 1.1rem; padding: .85rem 1rem; border-radius: 12px;
+      background: #fff6ec; border: 1px solid #f3d6b0; color: #7a4a0c;
+      font-size: .85rem; line-height: 1.5;
     }
-    .oferta .monto { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
-    .oferta .sub { font-size: .85rem; color: #3f6b50; margin-top: .3rem; }
-
-    /* Chips de confianza */
-    .trust { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
-    .chip {
-      display: inline-flex; align-items: center; gap: .35rem; font-size: .76rem;
-      color: var(--brand); background: #eef4fb; border: 1px solid #d6e4f3;
-      padding: .35rem .6rem; border-radius: 999px; font-weight: 600;
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .demo-banner {
+        background: #2a1f10; border-color: #5a3f17; color: #e4b472;
+      }
     }
-    .chip svg { width: 13px; height: 13px; }
 
-    /* Aviso legal */
     .aviso {
-      background: #f8fafc; border: 1px solid var(--line); border-left: 3px solid var(--brand);
-      border-radius: 10px; padding: .85rem 1rem; font-size: .83rem; color: #44505f;
+      background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--brand);
+      border-radius: 10px; padding: .85rem 1rem; font-size: .84rem; color: var(--muted);
       margin: 1rem 0; line-height: 1.5;
     }
     label.consent {
-      display: flex; gap: .6rem; align-items: flex-start; font-size: .86rem;
-      margin: 1rem 0; cursor: pointer; color: #38424f;
+      display: flex; gap: .6rem; align-items: flex-start; font-size: .88rem;
+      margin: 1rem 0; cursor: pointer; color: var(--ink);
     }
     label.consent input { margin-top: .15rem; width: 17px; height: 17px; accent-color: var(--brand); flex: 0 0 auto; }
     button {
@@ -90,78 +93,65 @@
       background: #eafaf0; color: var(--accent); display: flex; align-items: center;
       justify-content: center; font-size: 2rem;
     }
+    .coords { font-size: .9rem; color: var(--ink); margin-top: .6rem; }
+    .coords code { background: var(--bg); padding: .15rem .4rem; border-radius: 5px; }
     .hidden { display: none; }
     .msg { margin-top: 1rem; font-size: .86rem; color: #b4232a; background: #fdeced;
       border: 1px solid #f6c9cd; border-radius: 8px; padding: .6rem .8rem; }
 
     .footer {
       margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line);
-      font-size: .72rem; color: #8a94a1; text-align: center; line-height: 1.5;
+      font-size: .74rem; color: var(--muted); text-align: center; line-height: 1.5;
     }
-    .footer a { color: var(--brand); text-decoration: none; }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="brandbar">
-      <div class="logo" id="logo">MC</div>
+      <div class="logo">📍</div>
       <div>
-        <div class="name" id="brandname">Mi Casa de Préstamos</div>
-        <div class="tag">Crédito en línea · Seguro y confiable</div>
+        <div class="name">Demo de geolocalización</div>
+        <div class="tag">Práctica de ciberseguridad</div>
       </div>
     </div>
 
     <div class="body">
-      <!-- Paso 1: oferta + consentimiento -->
       <div id="formulario">
-        <h1>Tu préstamo preaprobado</h1>
+        <div class="demo-banner">
+          <strong>Esto es una demostración educativa.</strong> No es un servicio real.
+          Su único fin es mostrar cómo una página web puede solicitar y registrar tu
+          ubicación GPS. Nada aquí es una oferta ni un trámite.
+        </div>
+
+        <h1>Demostración: captura de ubicación</h1>
         <p id="intro">Cargando...</p>
 
-        <div class="oferta">
-          <div class="monto">Hasta $50,000</div>
-          <div class="sub">A plazos pequeños · 100% en línea · Sin papeleo</div>
-        </div>
-
-        <div class="trust">
-          <span class="chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
-            Datos protegidos
-          </span>
-          <span class="chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-            Respuesta rápida
-          </span>
-          <span class="chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            Conexión cifrada
-          </span>
-        </div>
-
         <div class="aviso">
-          Para continuar con tu solicitud, tu navegador te pedirá permiso y compartirás
-          tus <strong>coordenadas GPS</strong> con nosotros para poder contactarte. Es tu
-          decisión: si no estás de acuerdo, puedes cerrar esta página.
+          Si continúas, tu navegador te pedirá permiso y, si lo aceptas, esta página
+          leerá tus <strong>coordenadas GPS exactas</strong> y las enviará al panel de
+          la demostración. Es tu decisión: puedes negar el permiso o cerrar la página
+          en cualquier momento.
         </div>
 
         <label class="consent">
           <input type="checkbox" id="consent" />
-          <span>Acepto los <strong>términos y condiciones</strong> y autorizo compartir mi <strong>ubicación GPS</strong>.</span>
+          <span>Entiendo que es una demostración y autorizo compartir mi <strong>ubicación GPS</strong> para esta práctica.</span>
         </label>
 
-        <button id="btn" disabled>Solicitar mi préstamo</button>
+        <button id="btn" disabled>Compartir mi ubicación (demo)</button>
         <div class="msg hidden" id="error"></div>
 
         <div class="footer">
-          <span id="brandfooter">Mi Casa de Préstamos</span> · Tus datos se tratan conforme a nuestro
-          <a href="#">Aviso de Privacidad</a>.
+          Demostración de ciberseguridad. No recopila datos con fines comerciales ni
+          reales. Úsala solo con personas que saben que es una práctica.
         </div>
       </div>
 
-      <!-- Paso 2: confirmación -->
       <div id="gracias" class="ok hidden">
         <div class="check">✓</div>
-        <h1>¡Solicitud recibida!</h1>
-        <p>Gracias, estimado cliente. Un asesor de <strong id="brandthanks">Mi Casa de Préstamos</strong> se pondrá en contacto contigo muy pronto.</p>
+        <h1>Ubicación recibida</h1>
+        <p>Tus coordenadas se registraron en el panel de la demostración.</p>
+        <p class="coords hidden" id="coordsOut"></p>
       </div>
     </div>
   </div>
@@ -173,20 +163,12 @@
 
     consent.addEventListener("change", () => { btn.disabled = !consent.checked; });
 
-    // Cargar el aviso (quién solicita y para qué)
     fetch("/api/config").then(r => r.json()).then(cfg => {
       document.getElementById("intro").textContent =
-        `${cfg.org} solicita tu ubicación para ${cfg.motivo}.`;
-      if (cfg.org) {
-        document.getElementById("brandname").textContent = cfg.org;
-        document.getElementById("brandfooter").textContent = cfg.org;
-        document.getElementById("brandthanks").textContent = cfg.org;
-        const iniciales = cfg.org.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
-        if (iniciales) document.getElementById("logo").textContent = iniciales;
-      }
+        `Esta demostración (${cfg.org}) quiere mostrarte cómo se captura la ubicación: ${cfg.motivo}.`;
     }).catch(() => {
       document.getElementById("intro").textContent =
-        "Solicitamos tu ubicación para procesar tu préstamo.";
+        "Esta demostración muestra cómo una página captura tu ubicación.";
     });
 
     function mostrarError(txt) {
@@ -198,22 +180,20 @@
       if (!consent.checked) return;
       errorBox.classList.add("hidden");
       btn.disabled = true;
-      btn.textContent = "Procesando solicitud...";
+      btn.textContent = "Obteniendo ubicación...";
 
       if (!navigator.geolocation) {
         mostrarError("Tu navegador no soporta geolocalización.");
-        btn.disabled = false; btn.textContent = "Solicitar mi préstamo";
+        btn.disabled = false; btn.textContent = "Compartir mi ubicación (demo)";
         return;
       }
 
-      // La geolocalización solo funciona en contexto seguro (HTTPS) o localhost.
       if (!window.isSecureContext) {
         mostrarError("Esta página debe abrirse con HTTPS para poder usar la ubicación. Ábrela con una dirección https://");
-        btn.disabled = false; btn.textContent = "Solicitar mi préstamo";
+        btn.disabled = false; btn.textContent = "Compartir mi ubicación (demo)";
         return;
       }
 
-      // Esto dispara el PROMPT NATIVO del navegador. No se puede ni se debe saltar.
       navigator.geolocation.getCurrentPosition(
         async (pos) => {
           const payload = {
@@ -231,6 +211,9 @@
           } catch (e) { /* aun así mostramos confirmación */ }
 
           document.getElementById("formulario").classList.add("hidden");
+          const out = document.getElementById("coordsOut");
+          out.innerHTML = `Tus coordenadas: <code>${payload.lat.toFixed(5)}, ${payload.lon.toFixed(5)}</code> (±${Math.round(payload.accuracy)} m)`;
+          out.classList.remove("hidden");
           document.getElementById("gracias").classList.remove("hidden");
         },
         (err) => {
@@ -240,7 +223,7 @@
             3: "Se agotó el tiempo de espera.",
           };
           mostrarError(motivos[err.code] || "No se pudo obtener la ubicación.");
-          btn.disabled = false; btn.textContent = "Solicitar mi préstamo";
+          btn.disabled = false; btn.textContent = "Compartir mi ubicación (demo)";
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );

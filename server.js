@@ -15,8 +15,8 @@ const PANEL_TOKEN = process.env.PANEL_TOKEN || "cambia-este-token";
 
 // Identifican QUIEN pide la ubicacion y PARA QUE. La transparencia es obligatoria:
 // la persona debe saber que esta compartiendo su ubicacion y con quien.
-const ORG_NOMBRE = process.env.ORG_NOMBRE || "Mi Casa de Préstamos";
-const MOTIVO = process.env.MOTIVO || "poder contactarte";
+const ORG_NOMBRE = process.env.ORG_NOMBRE || "Demo de geolocalización";
+const MOTIVO = process.env.MOTIVO || "mostrar cómo se captura la ubicación en una práctica de ciberseguridad";
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
